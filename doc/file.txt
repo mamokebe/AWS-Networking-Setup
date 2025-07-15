@@ -1,0 +1,94 @@
+To create and configure a complete VPC environment using Node.js and AWS SDK (v3), follow the steps below. 
+This setup includes:
+  VPC 
+    1-create-vpc.js
+  Subnets (public and private)
+    2-create-subnets.js
+  Internet Gateway
+    3-create-igw.js
+  Bastion Host (in public subnet)
+    4-create-bastion.js
+  NAT Instance (in public subnet for private subnet access)
+    5-create-nat-instance.js
+  NAT Gateway (optional alternative to NAT instance)
+    6-create-nat-gateway.js
+  Route Table and NAT Association 
+    7-create-route-tables.js:
+      Creates route tables.
+      Associates public subnet with IGW.
+      Asociates private subnet with NAT Gateway.
+  Security Groups Setup 
+    8-create-security-groups.js
+        BastionSG: Allows SSH from anywhere (port 22).
+        PrivateSG: Blocks all inbound traffic by default.
+  Auto-Generated Architecture Diagram (Mermaid)
+    9-generate-diagram.js
+      generate output a Mermaid diagram of the current VPC setup based on vpc-state.json.
+  Teardown Step 
+    10-teardown.js:
+      Deletes VPC (and implicitly connected resources).
+      Clears saved state.
+All steps are now modularized into their own files with:
+  state.js for persisting resource IDs across steps.
+    State-Aware Logic:
+      Each step checks and saves essential resource IDs.
+      Safeguards against missing dependencies (e.g. NAT Gateway missing).
+      Each step checks if resources already exist using saved state before creating new ones.  
+  A cli.js interactive CLI to select and run steps.
+  Complete step logic for VPC, subnets, IGW, etc.
+  package.json setup with dependencies and start script.
+
+To Run:
+  npm install
+  npm start
+Push CLI Tool to GitHub
+  1. Create a new repo
+    You can do this manually at github.com/new, or via CLI:
+    gh repo create vpc-setup-cli --public --source=. --remote=origin
+  2. Prepare .gitignore
+    Create a .gitignore:
+    node_modules/
+    vpc-state.json
+    .env
+  3. Initialize and Push
+    git init
+    git add .
+    git commit -m "Initial commit: Modular VPC setup CLI"
+    git branch -M main
+    git remote add origin https://github.com/YOUR_USERNAME/vpc-setup-cli.git
+    git push -u origin main
+  Your CLI now includes:
+    Generate Architecture Diagram (Mermaid format)
+    README.md with full usage instructions and preview
+    .gitignore to avoid committing local state
+    Ready-to-push GitHub structure
+  Converted to an NPM CLI Tool
+    bin field added in package.json ("vpc-cli": "cli.js")
+    Now runnable globally via terminal: vpc-cli
+  To test locally:
+    npm link
+    vpc-cli
+  To publish:
+    npm login
+    npm publish
+
+
+Final folder structure:
+📁 modified-setup/
+ ├── cli.js
+ ├── config.js
+ ├── state.js
+ ├── .gitignore
+ ├── README.md
+ ├── vpc-architecture.md (auto-generated)
+ └── steps/
+     ├── 1-create-vpc.js
+     ├── 2-create-subnets.js
+     ├── 3-create-igw.js
+     ├── 4-create-bastion.js
+     ├── 5-create-nat-instance.js
+     ├── 6-create-nat-gateway.js
+     ├── 7-create-route-tables.js
+     ├── 8-create-security-groups.js
+     ├── 9-generate-diagram.js
+     └── 10-teardown.js
