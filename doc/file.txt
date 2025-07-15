@@ -74,10 +74,11 @@ Push CLI Tool to GitHub
 
 
 Final folder structure:
-📁 modified-setup/
+📁 aws-networking-setup/
  ├── cli.js
  ├── config.js
  ├── state.js
+ ├── vpc-state.json (auto-generated)
  ├── .gitignore
  ├── README.md
  ├── vpc-architecture.md (auto-generated)

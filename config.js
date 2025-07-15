@@ -1,6 +1,6 @@
 // ========================= config.js =========================
-export const REGION = "us-east-1";
-export const KEY_NAME = "newkeypair";
-export const AMI_ID = "ami-0c94855ba95c71c99";
-export const NAT_SG = ["sg-03945e14bcdb13a8e"]
+export const REGION = "your-region";
+export const KEY_NAME = "your-key-pair";
+export const AMI_ID = "your-ami";
+export const NAT_SG = ["your-sg"]
 
