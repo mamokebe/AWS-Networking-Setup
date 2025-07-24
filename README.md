@@ -89,7 +89,6 @@ graph TD
   %% Monitoring
   Lambda --> CloudWatch
   SMEndpoint --> CloudWatch
-  Lex --> CloudWatch
 
   ```
 
