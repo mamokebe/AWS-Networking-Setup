@@ -72,9 +72,8 @@ graph TD
   Lex["Amazon Lex"]
   Lambda["AWS Lambda"]
 
-  %% Monitoring & IAM
-  CloudWatch["Amazon CloudWatch (Monitoring)"]
-  IAM["IAM Roles"]
+  %% Monitoring 
+  CloudWatch["Amazon CloudWatch"]
 
   %% Data Training Flow
   User1 --> NodeJS
@@ -86,23 +85,17 @@ graph TD
   NodeJS --> SMEndpoint
 
   %% Lex Inference Flow
-  User1 --> Lex
+  User1 -->Cognito1--> Lex
   Lex --> Lambda
   Lambda --> SMEndpoint
-  Lambda --> Lex
-  User1 --> Cognito1
+  Lambda --> Lex 
 
   %% Monitoring
   Lambda --> CloudWatch
   SMEndpoint --> CloudWatch
   Lex --> CloudWatch
 
-  %% IAM
-  IAM --> Lambda
-  IAM --> SMEndpoint
-  IAM --> Lex
-  IAM --> Cognito1
-```
+  ```
 
 ---
 
