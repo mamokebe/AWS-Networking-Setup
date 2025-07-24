@@ -77,18 +77,14 @@ graph TD
 
   %% Data Training Flow
   User1 --> NodeJS
+  NodeJS --> SMEndpoint
   S3 --> SMTrain
   SMTrain --> SMEndpoint
-
-  %% Node.js Inference Flow
-  User1 --> NodeJS
-  NodeJS --> SMEndpoint
 
   %% Lex Inference Flow
   User1 -->Cognito1--> Lex
   Lex --> Lambda
   Lambda --> SMEndpoint
-  Lambda --> Lex 
 
   %% Monitoring
   Lambda --> CloudWatch
