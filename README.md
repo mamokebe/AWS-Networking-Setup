@@ -61,18 +61,17 @@ And it will write to `vpc-architecture.md`:
 ```mermaid
 graph TD
   %% Data Flow
-  User1["User (Web App)"]
   S3["Amazon S3 (Data Storage)"]
   SMTrain["SageMaker (Model Training)"]
   SMEndpoint["SageMaker Endpoint (Model Deployment)"]
   NodeJS["Node.js Server (Backend)"]
-  Cognito1["Cognito Identity Pool (Web Auth)"]
+
 
   %% Lex Flow
-  User2["User (Lex Chatbot)"]
+  User1["User (Lex Chatbot)"]
   Lex["Amazon Lex"]
   Lambda["AWS Lambda"]
-  Cognito2["Cognito Identity Pool (Lex Auth)"]
+  Cognito1["Cognito Identity Pool (Lex Auth)"]
 
   %% Monitoring & IAM
   CloudWatch["Amazon CloudWatch (Monitoring)"]
@@ -80,36 +79,31 @@ graph TD
   Metrics["CloudWatch Metrics"]
 
   %% Data Training Flow
-  User1 --> S3
+  User1 --> NodeJS
   S3 --> SMTrain
   SMTrain --> SMEndpoint
 
   %% Node.js Inference Flow
   User1 --> Cognito1 --> NodeJS
   NodeJS --> SMEndpoint
-  SMEndpoint --> NodeJS
 
   %% Lex Inference Flow
-  User2 --> Lex
+  User1 --> Lex
   Lex --> Lambda
   Lambda --> SMEndpoint
-  SMEndpoint --> Lambda
   Lambda --> Lex
-  Lex --> User2
-  User2 --> Cognito2
+  User1 --> Cognito1
 
   %% Monitoring
   Lambda --> CloudWatch
   SMEndpoint --> CloudWatch
   Lex --> CloudWatch
-  CloudWatch --> Metrics
 
   %% IAM
   IAM --> Lambda
   IAM --> SMEndpoint
   IAM --> Lex
   IAM --> Cognito1
-  IAM --> Cognito2
 ```
 
 ---
