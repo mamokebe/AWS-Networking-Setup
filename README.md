@@ -60,19 +60,56 @@ And it will write to `vpc-architecture.md`:
 
 ```mermaid
 graph TD
-  VPC["VPC (vpc-xxxxxx)"]
-  IGW["Internet Gateway (igw-xxxxxx)"]
-  NAT["NAT Gateway (nat-xxxxxx)"]
-  PUB["Public Subnet (subnet-xxxxxx)"]
-  PRIV["Private Subnet (subnet-yyyyyy)"]
-  RT1["Public Route Table (rtb-xxxxxx)"]
-  RT2["Private Route Table (rtb-yyyyyy)"]
+  %% Data Flow
+  User1["User (Web App)"]
+  S3["Amazon S3 (Data Storage)"]
+  SMTrain["SageMaker (Model Training)"]
+  SMEndpoint["SageMaker Endpoint (Model Deployment)"]
+  NodeJS["Node.js Server (Backend)"]
+  Cognito1["Cognito Identity Pool (Web Auth)"]
 
-  VPC --> IGW
-  VPC --> PUB
-  VPC --> PRIV
-  PUB --> RT1 --> IGW
-  PRIV --> RT2 --> NAT
+  %% Lex Flow
+  User2["User (Lex Chatbot)"]
+  Lex["Amazon Lex"]
+  Lambda["AWS Lambda"]
+  Cognito2["Cognito Identity Pool (Lex Auth)"]
+
+  %% Monitoring & IAM
+  CloudWatch["Amazon CloudWatch (Monitoring)"]
+  IAM["IAM Roles"]
+  Metrics["CloudWatch Metrics"]
+
+  %% Data Training Flow
+  User1 --> S3
+  S3 --> SMTrain
+  SMTrain --> SMEndpoint
+
+  %% Node.js Inference Flow
+  User1 --> Cognito1 --> NodeJS
+  NodeJS --> SMEndpoint
+  SMEndpoint --> NodeJS
+
+  %% Lex Inference Flow
+  User2 --> Lex
+  Lex --> Lambda
+  Lambda --> SMEndpoint
+  SMEndpoint --> Lambda
+  Lambda --> Lex
+  Lex --> User2
+  User2 --> Cognito2
+
+  %% Monitoring
+  Lambda --> CloudWatch
+  SMEndpoint --> CloudWatch
+  Lex --> CloudWatch
+  CloudWatch --> Metrics
+
+  %% IAM
+  IAM --> Lambda
+  IAM --> SMEndpoint
+  IAM --> Lex
+  IAM --> Cognito1
+  IAM --> Cognito2
 ```
 
 ---
