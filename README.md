@@ -68,15 +68,13 @@ graph TD
 
 
   %% Lex Flow
-  User1["User (Lex Chatbot)"]
+  User1["User (Frontend)"]
   Lex["Amazon Lex"]
   Lambda["AWS Lambda"]
-  Cognito1["Cognito Identity Pool (Lex Auth)"]
 
   %% Monitoring & IAM
   CloudWatch["Amazon CloudWatch (Monitoring)"]
   IAM["IAM Roles"]
-  Metrics["CloudWatch Metrics"]
 
   %% Data Training Flow
   User1 --> NodeJS
@@ -84,7 +82,7 @@ graph TD
   SMTrain --> SMEndpoint
 
   %% Node.js Inference Flow
-  User1 --> Cognito1 --> NodeJS
+  User1 --> NodeJS
   NodeJS --> SMEndpoint
 
   %% Lex Inference Flow
