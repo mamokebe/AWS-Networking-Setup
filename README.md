@@ -82,7 +82,7 @@ graph TD
   SMTrain --> SMEndpoint
 
   %% Lex Inference Flow
-  User1 -->Cognito1--> Lex
+  User1 -->Cognito--> Lex
   Lex --> Lambda
   Lambda --> SMEndpoint
 
