@@ -60,37 +60,20 @@ And it will write to `vpc-architecture.md`:
 
 ```mermaid
 graph TD
-  %% Data Flow
-  S3["Amazon S3 (Data Storage)"]
-  SMTrain["SageMaker (Model Training)"]
-  SMEndpoint["SageMaker Endpoint (Model Deployment)"]
-  NodeJS["Node.js Server (Backend)"]
+  VPC["VPC (vpc-xxxxxx)"]
+  IGW["Internet Gateway (igw-xxxxxx)"]
+  NAT["NAT Gateway (nat-xxxxxx)"]
+  PUB["Public Subnet (subnet-xxxxxx)"]
+  PRIV["Private Subnet (subnet-yyyyyy)"]
+  RT1["Public Route Table (rtb-xxxxxx)"]
+  RT2["Private Route Table (rtb-yyyyyy)"]
 
-
-  %% Lex Flow
-  User1["User (Frontend)"]
-  Lex["Amazon Lex"]
-  Lambda["AWS Lambda"]
-
-  %% Monitoring 
-  CloudWatch["Amazon CloudWatch"]
-
-  %% Data Training Flow
-  User1 --> NodeJS
-  NodeJS --> SMEndpoint
-  S3 --> SMTrain
-  SMTrain --> SMEndpoint
-
-  %% Lex Inference Flow
-  User1 -->Cognito--> Lex
-  Lex --> Lambda
-  Lambda --> SMEndpoint
-
-  %% Monitoring
-  Lambda --> CloudWatch
-  SMEndpoint --> CloudWatch
-
-  ```
+  VPC --> IGW
+  VPC --> PUB
+  VPC --> PRIV
+  PUB --> RT1 --> IGW
+  PRIV --> RT2 --> NAT
+```
 
 ---
 
